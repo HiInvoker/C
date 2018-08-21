@@ -1,0 +1,985 @@
+#1 输入输出以及if else
+#include <stdio.h>
+
+int main()
+{
+    int a = 0;
+    int b = 0;
+    int max = 0; 
+  
+    printf("input two int:");
+
+    scanf("%d %d", &a, &b);
+  
+    if (a > b){
+        max = a;
+    }else{
+        max = b;
+    }
+    printf("max is %d.\n", max);
+
+    return 0;
+}
+
+#交换两个数推荐版本：
+
+#include <stdio.h>
+int main()
+{
+    int a = 0;
+    int b = 0;
+    int swap = 0;
+
+    scanf("%d %d", &a, &b);
+  
+    swap = a;
+    a = b;
+    b = swap;
+
+    printf("%d %d\n", a, b);  
+
+    return 0;
+}
+
+#交换输出两个数最简化版本：
+#include <stdio.h>
+int main()
+{
+    int a = 0;
+    int b = 0;
+ 
+    scanf("%d %d", &a, &b);
+    printf("%d %d\n", b, a);
+
+    return 0;
+}
+
+#2.输入3条边长，判断是否能够构成三角形，是否是直角三角形（嵌套的判断）
+
+#include <stdio.h>
+int main()
+{
+    int a = 0;
+    int b = 0;
+    int c = 0;
+
+    scanf("%d %d %d", &a, &b, &c);
+
+    int flag = 0;
+    int tri = 0;
+ 
+    if (a < (c+b)){
+        tri = 1;
+    }else if (b < (a+c)){
+        tri = 1;
+    }else if (c < (a+b)){
+        tri = 1;
+    }
+    
+    if (tri == 1){
+        if (a*a == (b*b+c*c)){
+            flag = 1;
+        }else if(b*b == (a*a+c*c)){
+            flag = 1;   
+        }else if(c*c == (a*a+b*b)){
+            flag = 1;
+        }
+    }
+
+    if (tri == 0){
+        printf("not a triabgle\n");
+    }else{
+        if (flag == 1){
+            printf("yes\n");
+        }else{
+            printf("no\n");
+        }
+    }
+    return 0;
+}
+
+
+#3.利用链表类似的pre. cur来判断int的正负极限值（溢出概念！）
+
+#include <stdio.h>
+int main()
+{
+    int x = 0;
+    int y = 0;
+    int min = -1;
+    int max = 1;
+    
+    while (min < x){
+        min -= 1;
+        x -= 1;
+    }
+    min = x;
+
+    while (max > y){
+        max += 1;
+        y += 1;
+    }
+    max = y;
+
+    printf("min = %d, max = %d\n", min, max);
+  
+    return 0;
+}
+
+#4.判断 选择语句中else是属于哪个if的。
+
+#include <stdio.h>
+
+int main()
+{
+    int a = 0;
+    int b = 0;
+    int x = 0;
+    int y = 0;
+
+    if (a) if (b) x++; else y++;
+
+    printf("%d\n", y);
+
+
+    return 0;
+}
+
+#5.计算4/pi
+
+#include <math.h>
+
+int main()
+{
+    double sum  = 0;
+
+    
+    for (int i = 0; ; i++){
+        double term = 1.0 / (i*2+1);
+        if (i%2 == 0){      
+            sum += term;
+        }else{
+            sum -= term;
+        }                       
+        if (term < 1e-6){
+            break;
+        }
+    }
+
+    printf("%.6f\n", sum);
+
+    return 0;
+}
+
+#6.计算输入数据的最大，最小，平均值
+
+#include <stdio.h>
+int main()
+{
+    int x, n = 1, min, max, s = 0;
+
+    scanf("%d", &x);
+
+    min = x;
+    max = x;
+    s += x;
+
+    while (scanf("%d", &x) == 1){
+           //ctrl d 跳出输出 持续输入是难点
+        s += x;      
+
+        if (x < min){
+            min = x;
+        }
+        if (x > max){
+            max = x;
+        }
+   
+        n ++;
+    }
+
+    printf("%d %d %f\n", min, max, s*1.0/n);
+
+    return 0;
+}
+
+#7.习题1
+#输出100～999中的所有水仙花数。若3位数ABC满足ABC＝A*A*A ＋B*B*B ＋C*C*C ，则称其为水仙花数。例如153＝1 3 ＋5 3 ＋3 3 ，所以153是水仙花数
+
+#include <stdio.h>
+
+int main()
+{
+    int i = 100;
+    
+    int a = 0;
+    int b = 0;
+    int c = 0;
+
+    while (i < 1000){
+        a = i/100;
+        b = (i - a*100)/10;
+        c = i%10;
+        if (i == a*a*a + b*b*b + c*c*c){
+            printf("%d\n", i);
+        }        
+
+        i++;
+    }
+
+
+    return 0;
+}
+
+#8.习题2
+
+#相传韩信才智过人，从不直接清点自己军队的人数，只要让士兵先后以三人一排、五人一排、七人一排地变换队形，而他每次只掠一眼队伍的排尾就知道总人数了。输入包含多组数据，每组数据包含3个非负整数a，b，c，表示每种队形排尾的人数（a＜3，b＜5，c＜7），输出总人数的最小值（或报告无解）。已知总人数不小于10，不超过100。输入到文件结束为止。
+
+#样例输入：
+#2 1 6
+#2 1 3
+#样例输出：
+#Case 1: 41
+#Case 2: No answer
+
+#include <stdio.h>
+
+int main()
+{
+    int n = 0;
+
+    int a = 0;
+    int b = 0;
+    int c = 0;
+    scanf("%d %d %d", &a, &b, &c);
+
+    int flag = 0;
+
+    for (n = 10; n < 100; n++){
+        if ((n-a)%3 == 0 && (n-b)%5 == 0 && (n-c)%7 == 0){
+            flag = 1;
+            break;
+        }
+    }
+
+    if (flag ==  1){
+        printf("%d\n", n);
+    }else{
+        printf("No answer!\n");
+    }
+
+    return 0;
+}
+
+
+#9.习题3 输出倒三角
+
+#include <stdio.h>
+
+int main()
+
+{
+    int n = 0;
+    int m = 0;
+    scanf("%d", &n);
+
+    m = n;
+
+    for (int i=0; i<n; i++){
+        for (int j=0; j<i; j++){
+            printf(" ");
+        }
+        for (int k=0; k < 2*n-1; k++){
+            printf("#");
+        }
+        m -= 1;
+        printf("\n");
+    }
+
+    return 0;
+}
+
+#10.习题 2.6
+
+#include <stdio.h>
+
+int main()
+{
+    int s[10];
+    for (int a=123; a<333; a++){
+        for (int i = 0; i < 10; i++){
+            s[i] = 0;
+        } //每次循环都要重置一遍0
+
+        int sum = 0;
+        int b = a*2;
+        int c = a*3;
+
+        s[a/100] = 1;
+        s[a/10%10] = 1;
+        s[a%10] = 1;
+
+        s[b/100] = 1;
+        s[b/10%10] = 1;
+        s[b%10] = 1;
+
+        s[c/100] = 1;
+        s[c/10%10] = 1;
+        s[c%10] = 1;
+
+        for (int i=1; i<10; i++){
+            sum += s[i];
+        } //一个数字的位占一个字符，如果重复，则必有一个是s[i] = 0
+
+        if (sum == 9){
+            printf("%d %d %d\n", a,b,c);
+        } 
+    }
+
+    return 0;
+}
+
+ 
+#11.第三章 3.1
+
+#数组
+
+#读入一组整数，逆序输出到一行中。整数个数不超过100个
+
+#include <stdio.h>
+#define maxn 105
+
+int s[maxn];
+
+int main()
+{
+    int i = 0;
+    int x = 0;
+  
+    scanf("%d", &x);
+    while (x != -1){
+        a[i++] = x;
+        scanf("%d", &x); 
+    }
+
+    for (int j = i-1; j >= 0; j--){
+        printf("%d", s[j]);
+ 
+    }
+
+    printf("\n");
+    return 0;
+}
+
+//如果声明的是“int a[maxn]，b[maxn]”，是不能赋值b＝a的。如果要从数组a复制k个元素到数组b，可以这样做：memcpy（b，a，sizeof（int） * k）。当然，如果数组a和b都是浮点型的，复制时要写成“memcpy（b，a，sizeof（double） * k）”。另外需要注意的是，使用memcpy函数要包含头文件string.h。如果需要把数组a全部复制到数组b中，可以写得简单一些：memcpy（b，a，sizeof（a））
+
+#12.开灯问题
+
+#include <stdio.h>
+#include <string.h>
+#define maxn 1010
+
+int a[maxn];
+
+int main()
+{
+    int n = 0;
+    int k = 0;
+    int first = 1;
+
+    memset(a, 0, sizeof(a));
+
+    scanf("%d %d", &n, &k);
+                                 
+    for (int i = 1; i <= k; i++){ //人每次都是变化的，但是每一次换人，所有的灯都要操作一遍， 所以人在外面
+        for (int j = 1; j<= n; j++){
+            if (j % i == 0){   //因为要取余，所以不能从0开始
+                a[j] = !a[j];   //利用数组的布尔值表示状态，同时如果第j盏灯是第i个人的倍数，那么就会被操作一次（取相反的布尔值）
+            }
+        }
+    }
+    
+    for (int i = 1; i <= n; i++){
+        if (a[i]){
+            if (first){
+                first = 0;
+                printf("%d", a[i]);
+            }else{
+                printf(" ");
+                printf("%d", i);
+            }
+        }
+
+    }
+
+    printf("\n");
+
+    return 0;
+
+}
+
+#13.蛇形填数
+#
+##include <stdio.h>
+#include <string.h>
+#define maxn 20
+
+int a[maxn][maxn];
+
+int main()
+{
+    int n = 0;
+    int x = 0;
+    int y = 0;
+    int tot = 0;
+
+    memset(a, 0, sizeof(a));
+
+    scanf("%d", &n);
+
+    y = n-1;
+                        //确保每一个都走到不能填（1.再走就出界2.再走就走到以前填过的格子）while循环里面的判断前面是出界，后面是为0
+    tot = a[x][y] = 1;
+    while(tot < n*n){
+        while (x+1 < n && !a[x+1][y]){   //这里x+1最大小于n是因为数组从0开始的，取不到n 
+            a[++x][y] = ++tot;           //这里先判断x+1<n 的真假，如果为假，也不会造成 !a[x+1][y]越界，因为 &&为短路运算符
+        }
+
+        while (y-1 >= 0 && !a[x][y-1]){ 
+            a[x][--y] = ++tot;
+        }
+
+        while (x-1 >= 0 && !a[x-1][y]){
+            a[--x][y] = ++tot;
+        }
+
+        while (y+1 < n && !a[x][y+1]){
+            a[x][++y] = ++tot;  
+        }
+    }
+
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < n; j++){
+            printf("%3d", a[i][j]); //按照3位数打印 如为"%03d"，那么不足位补上0
+        }
+        printf("\n");
+    }
+    return 0;
+}
+        
+#14. 3.2竖乘问题
+
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+    char s[20];
+    char buf[99];
+    int count = 0;
+
+    scanf("%s", s);
+
+    for (int i = 100; i < 1000; i++){   // 这里i和j的取值是111，11；还是100，10，存疑
+        for (int j = 10; j < 100; j++){
+            int x = i * (j%10);
+            int y = i * (j/10);
+            int z = i*j;
+
+            sprintf(buf, "%d%d%d%d%d", i, j, x, y, z);  //将输出写入到字符数组里面，一个位数字一个字符
+            int flag = 1;
+
+            for (int i = 0; i < strlen(buf); i++){
+                if (strchr(s, buf[i]) == 0){  //用strchr判断字符是否存在于s中
+                    flag = 0;
+                }
+            }
+
+            if (flag){
+                printf("<%d>\n", ++count);
+                printf("%5d\nX%4d\n----\n%5d\n%4d\n----\n%5d\n\n", i, j, x, y, z);
+
+            }
+        }
+    }
+    return 0;
+}
+
+//C语言中的字符型用关键字char表示，它实际存储的是字符的ASCII码。字符常量可以用单引号法表示。在语法上可以把字符当作int型使用
+
+//另一个新内容是“scanf("%s", s)”。和“scanf("%d", &n)”类似，它会读入一个不含空格、TAB和回车符的字符串，存入字符数组s。注意，不是“scanf("%s",  &s)”，s前面没有“&”符号。
+
+//如果是字符串数组chars[maxn] [maxl]，可以用“scanf("%s", s[i])”读取第i个字符串。注意，“scanf("%s", s)”遇到空白字符会停下来（意思是空格后面的输出不会被读取）
+
+//C语言中的字符串是以“\0”结尾的字符数组，（最后是"\0"占位）可以用strlen(s)返回字符串s中结束标记之前的字符个数。字符串中的各个字符是s[0], s[1],…,s[strlen(s)-1]
+
+//str函数的使用：strcpy(a,  b),strcmp(a,  b),  strcat(a,  b)来执行“赋值”、“比较”和“连接”操作，而不能用“=”、“==”、“<=”、“+”等运算符。
+
+//滥用“++”、“—”、“+=”等可以修改变量值的运算符很容易带来隐蔽的错误。建议每条语句最多只用一次这种运算符，并且所修改的变量在整条语句中只出现一次。可以用-Wall来编译
+
+#15.字符串的操作（带空格输入，getchar()）判断左右引号
+
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+    int c, flag = 1;
+
+    while ((c = getchar()) != EOF){
+        if (c == '"'){
+            printf("%s", flag? "``" : "''"); //如果flag为1，则选前面的，否则为后面的
+            flag = !flag; //类似于开灯问题的操作
+        }else{
+            printf("%c", c);
+        }
+    }
+
+    return 0;
+}
+
+#16.错误修正，使用常量数组 char s[]
+
+#include<stdio.h>
+
+char s[] = "`1234567890-=QWERTYUIOP[]\\ASDFGHJKL;'ZXCVBNM,./";
+int main()
+{
+    int i, c;
+    while((c = getchar()) != EOF) {
+        for (i=1; s[i] && s[i]!=c; i++);{ //找错位之后的字符在常量表中的位置
+            if (s[i]){
+                putchar(s[i-1]); //如果找到，则输出它的前一个字符
+            }else{
+                putchar(c);
+            }
+        }
+    }
+    return 0;
+}
+
+
+输入：O S, GOMR YPFSU/
+输出：I AM FINE TODAY.
+
+//方案2：
+#include <stdio.h>
+#include <string.h>
+
+char s[] = "`1234567890-=QWERTYUIOP[]\\ASDFGHJKL;'ZXCVBNM,./";
+
+int main()
+{
+    int c;
+
+    while ((c = getchar()) != EOF){
+        int flag = 1;
+        for (int i = 0; i < strlen(s); i++){
+            if (s[i] == c){
+                printf("%c", s[i-1]);
+                flag = 0;
+                break;
+            }
+        }
+        if (flag){
+            printf(" ");
+        }
+    }
+    return 0;
+}
+
+#17.常量数组来判断是否是回文或者镜像
+
+#18。猜数字游戏，给定答案序列和用户猜测的序列，统计有多少数字位置正确（A），有多少数字在两个序列都出现过，但是位置不对。
+
+#include <stdio.h>
+#include <string.h>
+
+#define maxn 1010
+
+//直接统计可得A，为了求B，对于每个数字（1～9），统计二者出现的次数x和y，则min(x,y)就是该数字对B的贡献。最后要减去A的部分
+
+int main()
+{
+    int a[maxn];
+    int b[maxn];
+    
+    int n = 0;
+
+    int count = 0;
+
+    while (scanf("%d", &n) == 1 && n){
+        printf("Case<%d>:\n", ++count);
+       
+        for (int i = 0; i < n; i++){
+            scanf("%d", &a[i]);
+        }
+
+
+        for ( ; ; ){
+            int A = 0;
+            int B = 0;
+
+            for (int i = 0; i < n; i++){
+                scanf("%d", &b[i]); 
+                if (a[i] == b[i]){
+                    A++;
+                }
+            }        
+            if (b[0] == 0){
+                break;
+            } 
+            
+            for (int d = 1; d < 10; d++){
+
+                int a1 = 0;
+                int b1 = 0;
+ 
+                for (int i = 0; i < n; i++){
+                    if (a[i] == d){
+                        a1++;
+                    }
+                    if (b[i] == d){
+                        b1++;  
+                    }
+                }  
+                if (a1 < b1){
+                    B += a1;
+                }else{
+                    B += b1;
+                }             
+            }
+
+            printf("    <%d,%d>\n", A, B-A);    
+
+        }
+
+    }
+
+
+    return 0;
+}
+
+#19.生成元问题
+
+//如果x加上x的各个数字之和得到y，就说x是y的生成元。给出n（1≤n≤100000），求最小生成元。无解输出0。例如，n=216，121，2005时的解分别为198，0，1979
+//这里的值并不大，可以利用数组来做查询。
+
+#include <stdio.h>
+#include <string.h>
+
+#define maxn 10005
+
+int s[maxn];
+
+int main()
+
+{
+
+    int n = 0;
+    scanf("%d", &n);
+
+    int m = 0;
+
+    int flag = 0;
+    for (m = 1; m < maxn; m++){
+
+        int x = m;
+        int y = m;
+
+        while (x > 0){
+            y += x%10;
+            x /= 10;
+        }
+
+        s[m] = y;
+    }
+
+    for (int i = 0; i < maxn; i++){
+        if (s[i] == n){
+            flag = 1;
+            m = i;
+            break;
+        }
+
+    }
+
+    if (flag){
+        printf("%d\n", m);
+    }else{
+        printf("0\n");
+    }
+
+    return 0;
+}
+
+20.习题3-1
+
+#include <stdio.h>
+#include <string.h>
+#define maxn 100
+
+int main()
+{
+    char s[maxn];
+
+    scanf("%s", s);
+
+    int sum = 0;
+    int flag = 1;
+    int count = 0;
+
+    for (int i = 0; i < strlen(s); i++){
+        if (s[i] == 'O'){
+            flag = 1;
+            count ++;
+            sum += count;
+        }
+
+        if (s[i] == 'X'){
+            flag = 0;
+            count = 0;
+        }
+
+    }
+
+    printf("%d\n", sum);
+    return 0;
+}
+
+21.习题3-2
+
+22.习题3-3
+//把前n（n≤10000）个整数顺次写在一起：123456789101112…数一数0～9各出现多少次（输出10个整数，分别是0，1，…，9出现的次数）。 
+//思路：将前n个数存在数组中，然后依次取个每个数字的每一位
+
+#include <stdio.h>
+#include <string.h>
+
+#define maxn 10010
+
+int s[maxn];
+int main()
+{
+
+    for (int i = 1; i < maxn; i++){
+        s[i] = i; 
+    }
+
+    int count[20];
+    
+    for (int i = 0; i < 10; i++){ 
+        count[i] = 0;       
+    }
+    
+
+    for (int i = 1; i <= 10000; i++){
+        int x = s[i];
+        int y = s[i];
+        int r = 0;         
+
+        while (x > 0){
+            r = x%10;
+            for (int i = 0; i < 10; i++){
+                if (r == i){
+                    count[i] ++; 
+                }
+            }
+            x /= 10;
+        }
+    }
+ 
+    for (int i = 0; i < 10; i++){
+        printf("%d\n", count[i]);
+
+    }
+
+    return 0;
+}
+
+23.习题3-4
+//如果一个字符串可以由某个长度为k的字符串重复多次得到，则称该串以k为周期。例如，abcabcabcabc以3为周期（注意，它也以6和12为周期）。
+//思路：k比如可以被某个数字整除，那么就把这些数字保存在数组里面，然后查看是否从1到该数字的字符满足相等这个条件。如123 456对应位置字符相等
+
+#include <stdio.h>
+#include <string.h>
+
+#define maxn 100
+
+char s[maxn];
+int main()
+{
+    int n = 0;
+    
+    scanf("%s", s);
+
+    n = strlen(s);
+
+    int count[maxn];
+
+    for (int i = 0; i < maxn; i++){
+        count[i];
+    }
+
+    int r = 0;
+    for (int i = 1; i < n; i++){        
+        if (n % i == 0){
+            for (int j = 0; j < i; j++){
+                if (s[j] != s[j+i]){
+                    break;
+                }
+                count[r] = i;
+                r ++;
+            }
+        } 
+    }
+ 
+    printf("%d\n", count[0]);
+
+    return 0;
+}
+
+
+22.第四章
+
+//注意利用gdb 调试函数, 调用栈 (堆栈里面保存着函数的调用关系和局部变量)如果调用太多或者局部变量太多会造成 !栈溢出!
+
+23.例题4-2 刽子手游戏（猜字母）
+
+//游戏规则是这样的：计算机想一个单词让你猜，你每次可以猜一个字母。如果单词里有那个字母，所有该字母会显示出来；如果没有那个字母，则计算机会在一幅“刽子手”画上填一笔。这幅画一共需要7笔就能完成，因此你最多只能错6次。注意，猜一个已经猜过的字母也算错。在本题中，你的任务是编写一个“裁判”程序，输入单词和玩家的猜测，判断玩家赢了（You  win.）、输了（You  lose.）还是放弃了（You chickened out.）。每组数据包含3行，第1行是游戏编号（-1为输入结束标记），第2行是计算机想的单词，第3行是玩家的猜测。后两行保证只含小写字母。
+
+//编程有两种常见的顺序：自顶向下和自底向上。什么叫自顶向下呢？简单地说，就是先写框架，再写细节。
+
+//取出输入的猜测字符串中的每一字母去做判断，（将这个过程函数化）利用空格去代替已经出现过的字母，如果left为0，还有chance那么就赢了，反之则输了
+
+//程序的调试：在每次判断完成后打印查看答案字符串 left chance。
+
+#include <stdio.h>
+#include <string.h>
+
+#define maxn 100
+
+char ans[maxn];
+char in[maxn];
+
+int lose,win;
+int chance,left;
+
+void guess(char ch){
+    int bad = 1;
+
+    for (int i = 0; i < strlen(ans); i++){
+        if (ans[i] == ch){
+            ans[i] = ' ';
+            bad = 0;
+            left --;
+        }
+    }
+
+    if (bad){
+        chance--;
+    }
+
+    if (!chance){
+        lose = 1;
+    }
+    if (!left){
+        win = 1;
+    }
+}
+
+int main()
+{
+
+    int rnd = 0;
+
+    while(scanf("%d %s %s", &rnd, ans, in) == 3 && rnd != -1){
+        printf("Round %d:\n", rnd);
+
+        chance = 7;
+        left = strlen(ans);
+        win = lose = 0;
+
+        for (int i = 0; i < strlen(in); i++){
+            guess(in[i]);
+
+            printf("%s %d %d\n", ans, chance, left);
+            if(win || lose){
+                break;
+            }
+
+        }
+
+        if (win){
+            printf("You win!\n");
+        }else if (lose){
+            printf("You lose!\n");
+        }else{
+            printf("You chickend out.\n");
+        }
+
+    }
+
+    return 0;
+}
+
+
+24.例题4.3 救济金发放
+
+//n(n<20)个人站成一圈，逆时针编号为1～n。有两个官员，A从1开始逆时针数，B从n开始顺时针数。在每一轮中，官员A数k个就停下来，官员B数m个就停下来（注意有可能两个官员停在同一个人上）。接下来被官员选中的人（1个或者2个）离开队伍。输入n，k，m输出每轮里被选中的人的编号（如果有两个人，先输出被A选中的）。例如，n=10，k=4，m=3，输出为4 8, 9 5, 3 1, 2 6, 10, 7。注意：输出的每个数应当恰好占3列
+
+//分析：使用什么样的数据结构来模拟这个圈呢？ 数组
+//仍然采用自顶向下的方法编写程序。用一个大小为n的数组表示人站成的圈。为了避免人走之后移动数组元素，用0表示离开队伍的人，数数时跳过即可
+
+#include <stdio.h>
+
+#define maxn 25
+int m,n,k, a[maxn];
+
+int go(int p, int d, int t){
+    while (t--){
+        do{
+            p = (p+d+n-1)%n +1;
+       }while (a[p] == 0);   //避开已经为0的位置
+    }
+    return p;
+}   //移动的函数 p为当前位置， d为步长 +1 或者 -1， t为走的距离
+
+int main()
+{
+    while (scanf("%d %d %d", &n, &k, &m) == 3 && n){
+        for (int i = 1; i <= n; i++){
+            a[i] = i;
+        }   // 利用数组实现这个圈。
+
+        int left = n; //剩下的人数 如果为0，那么就发完了
+
+        int p1 = 1;
+        int p2 = n;
+
+        while (left){
+            p1 = go(p1, 1, k);
+            p2 = go(p2, -1, m);
+
+            printf("%3d", p1);
+            left--;
+
+            if (p1 != p2){
+                left--;          //如果不重合，那么就会少两个
+                printf("%3d", p2); 
+            }
+
+
+            a[p1] = a[p2] = 0;   //去掉他们
+            if (left){
+                printf(",");
+            }
+        }
+        printf("\n");
+    }
+
+    return 0;
+}
+
+25.习题4.4 
+
