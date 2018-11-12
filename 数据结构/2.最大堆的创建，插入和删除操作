@@ -1,0 +1,71 @@
+2.最大堆的创建，插入和删除操作
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 1000
+
+typedef int ElemType;
+typedef struct heap{
+    ElemType* data;
+    int size;
+    int capacity;
+}heap;
+
+heap* createHeap(int amount)
+{
+    heap* h = malloc(sizeof(heap));
+    h->data = malloc((amount+1) * sizeof(ElemType));
+    h->size = 0;
+    h->capacity = amount;
+    h->data[0] = MAX;
+}
+
+void insertElem(heap* h, ElemType item)
+{
+    if (h->size == h->capacity) {
+        printf("the heap is full\n");
+        return;
+    } else {
+        h->size ++;
+        int i = h->size;
+        for (; h->data[i/2] < item; i/=2){
+            h->data[i] = h->data[i/2];
+        }
+        h->data[i] = item;
+    }
+
+}
+
+ElemType deleteElem(heap* h)
+{
+    if (!h->size) {
+        printf("the heap is empty\n");
+        return -1;
+    }
+    ElemType val, tmp;
+    val = h->data[1];
+    tmp = h->data[h->size];
+    h->size --;
+
+    int parent,child;
+    for (parent = 1; parent*2 <= h->size; parent = child) {
+        child = parent*2;
+        if (((child+1) < h->size) && (h->data[child] < h->data[child+1])) {
+            child ++;
+        }
+        if (tmp >= h->data[h->size]) {
+            break;
+        } else {
+            h->data[parent] = h->data[child];
+        }
+    }
+    h->data[parent] = tmp;
+    return val;
+}
+
+
+int main()
+{
+    return 0;
+}
